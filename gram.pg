@@ -1,0 +1,93 @@
+root: root_statement*;
+
+root_statement: format_definition | entry_definition | import_definition | function_definition | comment;
+
+format_definition: "format" string ";"?;
+
+entry_definition: "entry" name ";"?;
+
+import_definition: "import" string ";"?;
+
+function_definition: "fn" name "(" types_list ")" "->" type code_block ";"?;
+
+types_list: typer ("," typer)*;
+
+typer: name ":" type;
+
+type: name (("[" "]"))*;
+
+code_block: "{" code_line (code_line)* "}";
+
+code_line: data_definition | expression ";" | "return" expression? ";" | inline | comment;
+
+data_definition: data_flags+ typer ("=" expression)? ";";
+
+data_flags: "const" | "var" | "global" | "local";
+
+expression: expression "&&" expression
+          | expression "||" expression
+          | expression "^^" expression
+          | expression "==" expression
+          | expression "!=" expression
+          | expression "<" expression
+          | expression "<=" expression
+          | expression ">" expression
+          | expression ">=" expression
+          | "!" expression
+          | "-" expression
+          | expression "**" expression
+          | expression "*" expression
+          | expression "/" expression
+          | expression "%" expression
+          | expression "<<" expression
+          | expression ">>" expression
+          | expression "&" expression
+          | expression "|" expression
+          | expression "^" expression
+          | expression "+" expression
+          | expression "-" expression
+          | expression "&&=" expression
+          | expression "||=" expression
+          | expression "^^=" expression
+          | "!=" expression
+          | "-=" expression
+          | expression "**=" expression
+          | expression "*=" expression
+          | expression "/=" expression
+          | expression "%=" expression
+          | expression "<<=" expression
+          | expression ">>=" expression
+          | expression "&=" expression
+          | expression "|=" expression
+          | expression "^=" expression
+          | expression "+=" expression
+          | expression "-=" expression
+          | expression "=" expression
+          | expression "++"
+          | expression "--"
+          | "++" expression
+          | "--" expression
+          | number 
+          | string
+          | name
+          | "(" expression ")"
+          | expression "[" expression "]"
+          | expression "?" expression ":" expression
+          | function_call
+          ;
+
+function_call: name "(" (expression ("," expression)*)? ")";
+
+terminals
+
+comment: /\/\*.*?\*\//;
+
+inline: /\$.*$/;
+
+name: /[a-zA-Z_][a-zA-Z0-9_]*/;
+
+number: /'(([0-9](?:_?[0-9])*[jJ]|(([0-9](?:_?[0-9])*\\.(?:[0-9](?:_?[0-9])*)?|\\.[0-9](?:_?[0-9])*)([eE][-+]?[0-9](?:_?[0-9])*)?|[0-9](?:_?[0-9])*[eE][-+]?[0-9](?:_?[0-9])*)[jJ])|(([0-9](?:_?[0-9])*\\.(?:[0-9](?:_?[0-9])*)?|\\.[0-9](?:_?[0-9])*)([eE][-+]?[0-9](?:_?[0-9])*)?|[0-9](?:_?[0-9])*[eE][-+]?[0-9](?:_?[0-9])*)|(0[xX](?:_?[0-9a-fA-F])+|0[bB](?:_?[01])+|0[oO](?:_?[0-7])+|(?:0(?:_?0)*|[1-9](?:_?[0-9])*)))|(0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?|0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh]|0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?|0[Bb][01]+|[01]+[Bb]|0[Bb]0?)|(0[Dd](0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?\\.)|((0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?)?\\.0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?)|(0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?\\.)|((0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?)?\\.0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?)[Dd]|(0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?\\.)|((0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?)?\\.0[Dd][1-9][0-9]*|[1-9][0-9]*[Dd]|[1-9][0-9]*|0|0[Dd]0?)|0[Xx](0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh]\\.)|((0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh])?\\.0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh])|(0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh]\\.)|((0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh])?\\.0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh])[Hh]|(0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh]\\.)|((0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh])?\\.0[Xx][0-9A-Fa-f]+|[0-9A-Fa-f]+[Hh]|0[Xx]0|0[Hh])|0[Oo](0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?\\.)|((0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?)?\\.0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?)|(0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?\\.)|((0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?)?\\.0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?)[Oo]|(0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?\\.)|((0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?)?\\.0[Oo][0-7]+|[0-7]+[Oo]|0[Oo]0?)|0[Bb](0[Bb][01]+|[01]+[Bb]|0[Bb]0?\\.)|((0[Bb][01]+|[01]+[Bb]|0[Bb]0?)?\\.0[Bb][01]+|[01]+[Bb]|0[Bb]0?)|(0[Bb][01]+|[01]+[Bb]|0[Bb]0?\\.)|((0[Bb][01]+|[01]+[Bb]|0[Bb]0?)?\\.0[Bb][01]+|[01]+[Bb]|0[Bb]0?)[Bb]|(0[Bb][01]+|[01]+[Bb]|0[Bb]0?\\.)|((0[Bb][01]+|[01]+[Bb]|0[Bb]0?)?\\.0[Bb][01]+|[01]+[Bb]|0[Bb]0?))'/;
+
+string: /"[^"]*"/;
+
+semicolon: /;/;

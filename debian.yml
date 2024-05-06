@@ -1,0 +1,49 @@
+postinst: postinst.sh
+preinst: null
+postrm: postrm.sh
+prerm: null
+changelog: null
+package: x86-64-ass
+version: 0.0.1-1+manylinux2024
+provides: x86-64-ass
+mainer: Ivan Chetchasov <chetvano@gmail.com>
+arch: all
+category:
+  - utils
+desc: ASsembler Smart x86_64 cross-compiler
+deps:
+  - python3.11
+  - python3-pip
+predeps: []
+priority: optional
+origin: chetvano@gmail.com
+dirs:
+  - /usr/share/ass
+  - /usr/bin
+files:
+ - - ass.py
+   - /usr/share/ass/x86_64/ass.py
+ - - builtins.asm
+   - /usr/share/ass/x86_64/builtins.asm
+ - - compile.py
+   - /usr/share/ass/x86_64/compile.py
+ - - compile_code.py
+   - /usr/share/ass/x86_64/compile_code.py
+ - - compile_core.py
+   - /usr/share/ass/x86_64/compile_core.py
+ - - compile_format.py
+   - /usr/share/ass/x86_64/compile_format.py
+ - - gram.pg
+   - /usr/share/ass/x86_64/gram.pg
+ - - gram.pgt
+   - /usr/share/ass/x86_64/gram.pgt
+ - - lex.py
+   - /usr/share/ass/x86_64/lex.py
+ - - parse.py
+   - /usr/share/ass/x86_64/parse.py
+ - - parseargs.py
+   - /usr/share/ass/x86_64/parseargs.py
+ - - prepsrc.py
+   - /usr/share/ass/x86_64/prepsrc.py
+ - - prepsrc_core.py
+   - /usr/share/ass/x86_64/prepsrc_core.py
